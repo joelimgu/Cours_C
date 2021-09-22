@@ -14,7 +14,8 @@ void aff(int tab[], int taille) {
 }
 
 int main(){
-int tab[5] = {1,2,3,4,5};
-aff(tab,5);
-aff(tab,sizeof(tab)/sizeof(int)); // on peut juste savoir la taille du tableau si c'est un tableau statique declare dans le même scope
+    int tab[5] = {1,2,3,4,5};
+    aff(tab,5);
+    aff(tab,sizeof(tab)/sizeof(int)); // on peut juste savoir la taille du tableau si c'est un tableau statique declare dans le même scope
+    return(0);
 }
