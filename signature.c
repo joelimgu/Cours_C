@@ -190,6 +190,5 @@ int main(){
     print_line(&line4);
     print_line(&line5);
     print_line(&line6);
-    printf("%c\n", line1.value[59]);
     return 0;
 }
