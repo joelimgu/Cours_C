@@ -1,7 +1,4 @@
 
-
-
-
 // this exo is not finished
 
 #include <stdio.h>
