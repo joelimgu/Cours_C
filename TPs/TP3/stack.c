@@ -3,7 +3,14 @@
 #include <stdlib.h>
 #include "stack.h"
 
+/// evaluates to nothing.
+/// Just signifies that the reference on which it is applied will modify its value
+# define mut
 
+/// signifies that the value will bre dropped inside the function so it shouldn't be used after that call
+#define owned
+
+/// creates an empty stack <=> a stack of len 0 and null elements
 Stack * create_empty_stack() {
     Stack *s = malloc(sizeof(Stack));
     s->len = 0;
@@ -11,8 +18,8 @@ Stack * create_empty_stack() {
     return s;
 }
 
-
-void push(Stack * s, int val) {
+/// takes a mut ref of Stack and adds an element on top
+void push(Stack * mut s, int val) {
     Element *old_first = s->first;
     Element *new = malloc(sizeof(Element));
     new->val = val;
@@ -21,8 +28,8 @@ void push(Stack * s, int val) {
     s->len += 1;
 }
 
-
-int pop(Stack *s) {
+/// takes a mut ref of a Stack and removes and returns the top element
+int pop(Stack * mut s) {
     Element *first = s->first;
     int val;
     if ( s->first == NULL ) fprintf(stderr, "Cannot pop from empty list: %d\n", -1);
@@ -33,8 +40,8 @@ int pop(Stack *s) {
     return val;
 }
 
-
-void print_stack(Stack *s) {
+/// takes a ref of Stack and prints it in stdout
+void print_stack(Stack * mut s) {
     Element *l = s->first;
     printf("len: %d\n", s->len);
     printf("[");
@@ -45,7 +52,8 @@ void print_stack(Stack *s) {
     printf("]\n");
 }
 
-void test_stack(){
+/// runs functions to test if code works
+void test_stack() {
     Stack *s = create_empty_stack();
     push(s,1);
     push(s,2);
