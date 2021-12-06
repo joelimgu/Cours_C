@@ -1,9 +1,6 @@
 
 #include <stdio.h>
-#define mut(a) a // indicates that the function is gonna mutate the value stored in the reference passed
-
-enum bool {false, true};
-
+#include "joel_macros.h"
 
 void print_tab(int * tab, int size) {
     for (int i = 0; i < size; i++ ){
@@ -31,7 +28,7 @@ void sort_tab(int * tab, int size) {
 int main(){
     int tab[10] = {9,8,7,10,6,5,4,3,2,1};
     print_tab(tab, 10);
-    sort_tab(mut(tab),10);
+    sort_tab(mut tab,10);
     printf("-----------------------------------\n");
     print_tab(tab,10);
     return 0;

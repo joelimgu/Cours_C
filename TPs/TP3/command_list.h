@@ -3,8 +3,6 @@
 #define COMMAND_H
 
 #include "stack.h"
-typedef int (*Commande)(Etat*);
-
 
 int drop(Stack *s);
 

@@ -1,14 +1,17 @@
 
 all: forth
 
-test: main.o stack.o command_list.o
-	gcc -o forth main.o command_list.o stack.o
+test: interpreter.o tests.c symol_list.o
+	gcc -o test tests.c interpreter.o stack.o symol_list.o && ./test
 
-forth: main.o stack.o command_list.o
-	gcc -o forth main.o command_list.o stack.o
+forth: main.o stack.o command_list.o interpreter.o
+	gcc -o forth main.o command_list.o stack.o interpreter.o
 
 main.o: main.c stack.h
 	gcc -c main.c
+
+interpreter.o: interpreter.c interpreter.h stack.o
+	gcc -c interpreter.c stack.o
 
 stack.o: stack.c stack.h
 	gcc -c stack.c
@@ -16,5 +19,8 @@ stack.o: stack.c stack.h
 command_list.o: command_list.c command_list.h
 	gcc -c command_list.c
 
+symol_list.o: symol_list.c symol_list.h
+	gcc -c symol_list.c
+
 clean:
-	rm *.o forth
+	rm -f *.o forth test

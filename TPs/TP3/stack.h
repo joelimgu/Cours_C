@@ -2,10 +2,6 @@
 #ifndef STACK_H
 #define STACK_H
 
-
-enum bool {false, true};
-typedef enum bool bool;
-
 struct List {
     int val;
     struct List *next;

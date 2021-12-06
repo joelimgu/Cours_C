@@ -2,13 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "stack.h"
-
-/// evaluates to nothing.
-/// Just signifies that the reference on which it is applied will modify its value
-# define mut
-
-/// signifies that the value will bre dropped inside the function so it shouldn't be used after that call
-#define owned
+#include "joel_macros.h"
 
 /// creates an empty stack <=> a stack of len 0 and null elements
 Stack * create_empty_stack() {
