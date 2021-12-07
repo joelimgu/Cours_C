@@ -1,7 +1,7 @@
 
 #include <stdio.h>
 #include "interpreter.h"
-#include "symol_list.h"
+#include "symbol_list.h"
 #include "command_list.h"
 
 #define ANSI_COLOR_GREEN_BOLD "\e[1;32m"
@@ -13,7 +13,7 @@ enum bool assert_int(char * mes, int value, int expected) {
         printf( "    - "ANSI_COLOR_GREEN_BOLD "OK    %s\n" Color_end, mes );
         return true;
     } else {
-        printf("    - "ANSI_COLOR_RED_BOLD "ERR! %s.\n Expected: %d. But got: %d" Color_end, mes, expected, value);
+        printf("    - "ANSI_COLOR_RED_BOLD "ERR! %s.\n Expected: %d But got: %d" Color_end, mes, expected, value);
         return false;
     }
 }
@@ -30,7 +30,7 @@ enum bool assert_pointer(char * mes, void *value, void *expected) {
 }
 
 
-int test_program(char * s) {
+Value test_program(char * s) {
     Programme * p = lexer(s);
     char noms[][10] = {"DROP", "DUP", "SWAP", "ROT", "+", "-", "*"};
     Commande commands[] = {drop, dup, swap, rot, sum, subtract, multiply};
@@ -40,14 +40,21 @@ int test_program(char * s) {
 }
 
 void test_forth() {
-    assert_int("3 5 +", test_program("3 5 +"), 8);
-    assert_int("3 5 + 4 2 -", test_program("3 5 + 4 2 -"), 2);
-    assert_int("3 10 +", test_program("3 10 +"), 13);
-    assert_int("3 5 + 4 2 - *", test_program("3 5 + 4 2 - *"), 16);
-    assert_int("1 2 + DUP *", test_program("1 2 + DUP *"),9 );
-    assert_int("1 2 DROP", test_program("1 2 DROP"),1 );
-    assert_int("2 3 SWAP -", test_program("2 3 SWAP -"),1 );
-    assert_int("3 2 1 ROT", test_program("3 2 1 ROT"),3 );
+    assert_int("3 5 +", test_program("3 5 +").val.Int, 8);
+    assert_int("3 5 + 4 2 -", test_program("3 5 + 4 2 -").val.Int, 2);
+    assert_int("3 10 +", test_program("3 10 +").val.Int, 13);
+    assert_int("3 5 + 4 2 - *", test_program("3 5 + 4 2 - *").val.Int, 16);
+    assert_int("3.5 3 +", test_program("3.5 3 +").val.Float, 6.5);
+    assert_int("3.5 3 + 4 2 - *", test_program("3.5 3 + 4 2 - *").val.Float, 13.0);
+
+
+    assert_int("1 2 + DUP *", test_program("1 2 + DUP *").val.Int,9 );
+    assert_int("1 2 DROP", test_program("1 2 DROP").val.Int,1 );
+    assert_int("2 3 SWAP -", test_program("2 3 SWAP -").val.Int,1 );
+    assert_int("3 2 1 ROT", test_program("3 2 1 ROT").val.Int,3 );
+    assert_int("printed bonjour tout le monde? ^", test_program(".\" bonjour tout le monde \"").val.Int, -1 );
+    assert_int("printed + operation", test_program(".\" bonjour tout le monde \" 3 5 +").val.Int, 8 );
+
 }
 
 void test_symbol_list() {

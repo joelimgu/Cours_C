@@ -8,7 +8,7 @@
 #define ASCII_MULT 42
 #include "interpreter.h"
 #include "command_list.h"
-#include "symol_list.h"
+#include "symbol_list.h"
 
 
 enum bool compare_string(char * s1, char * s2) {
@@ -59,20 +59,48 @@ void print_tokens(Programme * p) {
 }
 
 
-int executer(Etat * mut etat) {
+Value executer(Etat * mut etat) {
     Programme p = etat->p;
     Stack *s = &etat->s;
+    Value v;
+    v.val.Int = -1;
+    v.type = Int;
+
+    enum bool are_we_in_string = false;
     for (int i = 1; i<=p.taille; i++) {
         char * token = p.tokens[i-1];
         Commande commande = search_token_function_pointer(etat->symbols, token);
+        if ( compare_string(token, ".\"") == 1 ) {
 
-        if ( commande != NULL ) {
+            are_we_in_string = true;
+
+        } else if ( compare_string(token, "\"" )) {
+            are_we_in_string = false;
+            printf("\n");
+        } else if ( are_we_in_string ) {
+            printf("%s ", token);
+
+        } else if ( commande != NULL ) {
             commande(mut etat);
 //            printf("called: %s with &: %p\n", token, commande);
         } else {
-            push(s, atoi(p.tokens[i-1])); // we have a value
+            int type = 0; // 0<=> Int, 1<=> Float
+            int j = 0;
+            Value v;
+            while (token[j] != '\0') {
+                if ( token[j] == '.' ){ type = 1; }
+                j++;
+            }
+            if ( type == 0) {
+                v.val.Int = atoi(p.tokens[i-1]);
+                v.type = Int;
+            } else {
+                v.val.Float = atof(p.tokens[i-1]);
+                v.type = Float;
+            }
+            push(s, v); // we have a value
         }
     }
-    int res = pop(s);
+    Value res = s->len > 0 ? pop(s) : v;
     return res;
 }

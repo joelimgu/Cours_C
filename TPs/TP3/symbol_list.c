@@ -1,7 +1,7 @@
 
 #include <stdlib.h>
 #include <string.h>
-#include "symol_list.h"
+#include "symbol_list.h"
 #include "joel_macros.h"
 
 /*

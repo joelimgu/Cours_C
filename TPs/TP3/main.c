@@ -106,10 +106,21 @@
 
 
 int main() {
-    Programme * p = lexer("3 5 + 4 2 - *");
-    print_tokens(p);
-    Etat e = {s: *create_empty_stack(), p: *p};
-    int res = executer(&e);
-    printf("%d\n",res);
+//    Programme * p = lexer("3 5 + 4 2 - *");
+//    print_tokens(p);
+//    Etat e = {s: *create_empty_stack(), p: *p};
+//    int res = executer(&e);
+//    printf("%d\n",res);
+    char * c = "3.5";
+    int i = 0;
+    int type = 0; //0 int 1 float
+    while (c[i] != '\0') {
+        printf("%c",c[i]);
+        i++;
+        if ( c[i] == '.' ){ i = 1; break;}
+    }
+    printf("\n");
+    printf("%i\n", atoi("3,5"));
+    printf("%f\n", atof("3.5"));
     return 0;
 }

@@ -5,8 +5,6 @@
 #include "interpreter.h"
 
 
-
-
 typedef struct Symbols {
     char * token;
     Commande func;

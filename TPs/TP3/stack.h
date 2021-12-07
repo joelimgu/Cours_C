@@ -14,14 +14,14 @@ typedef union {
 
 enum Types {Int, Float, str};
 
-struct Value {
+typedef struct  {
     ForthValues val;
     enum Types type;
-};
+} Value; // val: ForthValues, type: Types
 
 // todo change type to Value
 struct List {
-    int val;
+    Value val;
     struct List *next;
 };
 typedef struct List Element;
@@ -34,9 +34,9 @@ typedef struct {
 
 Stack * create_empty_stack();
 
-void push(Stack * mut s, int val);
+void push(Stack * mut s, Value val);
 
-int pop(Stack * owned s);
+Value pop(Stack * owned s);
 
 void print_stack(Stack *s);
 

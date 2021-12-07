@@ -26,12 +26,12 @@ typedef struct Etats Etat;
 // pointer to a callable integer (func) that takes Etat as argument
 typedef int (*Commande)(Etat*);
 
-#include "symol_list.h" // bc it needs Commande to be defined
+#include "symbol_list.h" // bc it needs Commande to be defined
 
 typedef struct Etats {
     Stack s;
     Programme p;
-    SymbolList * symbols; // pointer to SymbolList
+    void * symbols; // pointer to SymbolList it errors if we define the type
 } Etat;
 
 int numberOfDelimiters(char* string);
@@ -40,7 +40,7 @@ Programme* lexer(char* chaine);
 
 void print_tokens(Programme * p);
 
-int executer(Etat *etat);
+Value executer(Etat *etat);
 
 void test_forth();
 

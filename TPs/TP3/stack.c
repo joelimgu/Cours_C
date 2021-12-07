@@ -13,7 +13,7 @@ Stack * create_empty_stack() {
 }
 
 /// takes a mut ref of Stack and adds an element on top
-void push(Stack * mut s, int val) {
+void push(Stack * mut s, Value val) {
     Element *old_first = s->first;
     Element *new = malloc(sizeof(Element));
     new->val = val;
@@ -23,12 +23,13 @@ void push(Stack * mut s, int val) {
 }
 
 /// takes a mut ref of a Stack and removes and returns the top element
-int pop(Stack * owned s) {
+Value pop(Stack * owned s) {
     Element *first = s->first;
-    int val;
+    Value val;
     if ( s->first == NULL ) fprintf(stderr, "Cannot pop from empty list: %d\n", -1);
     s->first = s->first->next;
     val = first->val;
+    // todo if string free sting too
     free(first);
     s->len -= 1;
     return val;
@@ -40,19 +41,29 @@ void print_stack(Stack * mut s) {
     printf("len: %d\n", s->len);
     printf("[");
     while ( l != NULL ) {
-        printf("%d, ", l->val);
+        switch (l->val.type) {
+            case Float:
+                printf("%f, ", l->val.val.Float);
+                break;
+            case Int:
+                printf("%d, ", l->val.val.Int);
+                break;
+            case str:
+                printf("%s, ", l->val.val.str);
+        }
+//        printf("%d, ", l->val);
         l = l->next;
     }
     printf("]\n");
 }
-
-/// runs functions to test if code works
-void test_stack() {
-    Stack *s = create_empty_stack();
-    push(s,1);
-    push(s,2);
-    push(s,3);
-    print_stack(s);
-    printf("Popped element: %d\n", pop(s));
-    print_stack(s);
-}
+//
+///// runs functions to test if code works
+//void test_stack() {
+//    Stack *s = create_empty_stack();
+//    push(s,1);
+//    push(s,2);
+//    push(s,3);
+//    print_stack(s);
+//    printf("Popped element: %d\n", pop(s));
+//    print_stack(s);
+//}
