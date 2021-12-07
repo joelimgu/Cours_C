@@ -4,6 +4,22 @@
 
 #include "joel_macros.h"
 
+
+// maybe create a struct to keep track of the type and the union macro_rules!();
+typedef union {
+    int Int;
+    float Float;
+    char * str;
+} ForthValues;
+
+enum Types {Int, Float, str};
+
+struct Value {
+    ForthValues val;
+    enum Types type;
+};
+
+// todo change type to Value
 struct List {
     int val;
     struct List *next;

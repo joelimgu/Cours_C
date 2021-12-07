@@ -40,10 +40,14 @@ int test_program(char * s) {
 }
 
 void test_forth() {
-    assert_int("3 5 +", 8, test_program("3 5 +"));
-    assert_int("3 5 + 4 2 -", 2, test_program("3 5 + 4 2 -"));
-    assert_int("3 10 +", 13, test_program("3 10 +"));
-    assert_int("3 5 + 4 2 - *", 16, test_program("3 5 + 4 2 - *"));
+    assert_int("3 5 +", test_program("3 5 +"), 8);
+    assert_int("3 5 + 4 2 -", test_program("3 5 + 4 2 -"), 2);
+    assert_int("3 10 +", test_program("3 10 +"), 13);
+    assert_int("3 5 + 4 2 - *", test_program("3 5 + 4 2 - *"), 16);
+    assert_int("1 2 + DUP *", test_program("1 2 + DUP *"),9 );
+    assert_int("1 2 DROP", test_program("1 2 DROP"),1 );
+    assert_int("2 3 SWAP -", test_program("2 3 SWAP -"),1 );
+    assert_int("3 2 1 ROT", test_program("3 2 1 ROT"),3 );
 }
 
 void test_symbol_list() {

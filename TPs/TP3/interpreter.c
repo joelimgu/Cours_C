@@ -10,13 +10,6 @@
 #include "command_list.h"
 #include "symol_list.h"
 
-// todo union type
-// maybe create a struct to keep track of the type and the union macro_rules!();
-union Test {
-    int ValEntier;
-    float ValReel;
-};
-
 
 enum bool compare_string(char * s1, char * s2) {
     int len1 = 0;
@@ -66,45 +59,19 @@ void print_tokens(Programme * p) {
 }
 
 
-int executer(Etat *etat) {
+int executer(Etat * mut etat) {
     Programme p = etat->p;
     Stack *s = &etat->s;
-    int a,b;
     for (int i = 1; i<=p.taille; i++) {
         char * token = p.tokens[i-1];
         Commande commande = search_token_function_pointer(etat->symbols, token);
 
         if ( commande != NULL ) {
-            commande(etat);
+            commande(mut etat);
+//            printf("called: %s with &: %p\n", token, commande);
         } else {
             push(s, atoi(p.tokens[i-1])); // we have a value
         }
-
-//        switch ((int)p.tokens[i-1][0]) {
-//            case ASCII_SOMME:
-////                print_stack(&s);
-//                b = pop(&s);
-//                a = pop(&s);
-//                push(&s, a + b);
-////                printf("%d + %d = %d\n", a , b, a+b );
-//                continue;
-//            case ASCII_MULT:
-////                print_stack(&s);
-//                b = pop(&s);
-//                a = pop(&s);
-//                push(&s, a * b);
-////                printf("%d * %d = %d\n", a , b, a*b );
-//                continue;
-//            case ASCII_MOINS:
-////                print_stack(&s);
-//                b = pop(&s);
-//                a = pop(&s);
-//                push(&s, a - b);
-////                printf("%d - %d = %d\n", a , b, a-b );
-//                continue;
-//            default: // we have a value
-//                push(&s, atoi(p.tokens[i-1]));
-//        }
     }
     int res = pop(s);
     return res;

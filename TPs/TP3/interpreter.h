@@ -7,6 +7,7 @@
 #include <string.h>
 #include <ctype.h>
 #include "stack.h"
+
 #include "joel_macros.h"
 #define ASCII_MOINS 45
 #define ASCII_SOMME 43
@@ -20,15 +21,18 @@ typedef struct Programme {
     int taille;
 } Programme;
 
-// Etat --> Commande --> Etat
-typedef struct {
-    Stack s;
-    Programme p;
-    void * symbols; // pointer to SymbolList
-} Etat;
+typedef struct Etats Etat;
 
 // pointer to a callable integer (func) that takes Etat as argument
 typedef int (*Commande)(Etat*);
+
+#include "symol_list.h" // bc it needs Commande to be defined
+
+typedef struct Etats {
+    Stack s;
+    Programme p;
+    SymbolList * symbols; // pointer to SymbolList
+} Etat;
 
 int numberOfDelimiters(char* string);
 
