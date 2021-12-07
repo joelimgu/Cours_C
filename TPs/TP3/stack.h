@@ -2,6 +2,8 @@
 #ifndef STACK_H
 #define STACK_H
 
+#include "joel_macros.h"
+
 struct List {
     int val;
     struct List *next;
@@ -16,9 +18,9 @@ typedef struct {
 
 Stack * create_empty_stack();
 
-void push(Stack * s, int val);
+void push(Stack * mut s, int val);
 
-int pop(Stack *s);
+int pop(Stack * owned s);
 
 void print_stack(Stack *s);
 

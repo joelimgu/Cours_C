@@ -4,8 +4,8 @@
 #include "joel_macros.h"
 #include "interpreter.h"
 
-// pointer to a callable integer (func) that takes Etat as argument
-typedef int (*Commande)(Etat*);
+
+
 
 typedef struct Symbols {
     char * token;
@@ -17,8 +17,12 @@ typedef struct Cells {
     struct Cells *next;
 } SymbolList;
 
+int search_token(SymbolList *l, char *token);
+
 SymbolList * empty_list();
 
 enum bool add_entry(SymbolList ** mut l, char * t, Commande f);
+
+SymbolList * init_symbol_list(char noms[][10], Commande * command, int len_commands);
 
 #endif

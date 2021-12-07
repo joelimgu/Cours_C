@@ -4,11 +4,18 @@
 
 #include "stack.h"
 
-int drop(Stack *s);
+int drop(Etat * mut e);
 
-int dup(Stack * s);
+int dup(Etat * mut e);
 
-int swap(Stack *s);
+int swap(Etat * mut e);
 
-int rot(Stack *s);
+int rot(Etat * mut e);
+
+int sum(Etat * mut e);
+
+int subtract(Etat * mut e);
+
+int multiply(Etat * mut e);
+
 #endif

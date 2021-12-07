@@ -7,10 +7,26 @@
 /*
 Checklist:
  [x] creer table symboles
- [ ] ajouter une entree
- [ ] cherche pour un token dans la liste
+ [x] ajouter une entree
+ [x] cherche pour un token dans la liste
  [ ] initialiser la liste avec une liste déjà existante ???? // todo ask for this
- */
+*/
+
+
+/// returns the index of the token
+int search_token(SymbolList *l, char *token) {
+    SymbolList *aux = l;
+    int len = 0;
+    int index = 0;
+    if ( aux == NULL ) return -1;
+    while ( aux->next != NULL ) {
+        if ( compare_string(aux->val.token, token) ) return index;
+        aux = aux->next;
+        index++;
+    }
+    if ( compare_string(aux->val.token, token) ) return index;
+    return -1;
+}
 
 
 SymbolList * empty_list() {
@@ -19,8 +35,33 @@ SymbolList * empty_list() {
 
 enum bool add_entry(SymbolList ** mut l, char * t, Commande f) {
     if ( *l == NULL ) {
+        int i = 0;
+        while ( t[i] != '\0' ) i++; // get the length of the str
         *l = malloc(sizeof(SymbolList));
+        (*l)->next = NULL;
+        (*l)->val.token = malloc(sizeof(char)*i);
         strcpy((*l)->val.token, t);
         (*l)->val.func = f;
+    } else {
+        int i = 0;
+        while ( t[i] != '\0' ) i++; // get the length of the str
+        SymbolList * aux = *l;
+        while ( aux->next != NULL ) aux = aux->next;
+
+        aux->next = malloc(sizeof(SymbolList));
+        aux->next->next = NULL;
+        aux->next->val.token = malloc(sizeof(char)*i);
+        strcpy(aux->next->val.token, t);
+        aux->next->val.func = f;
     }
+    return true;
+}
+
+
+SymbolList * init_symbol_list(char noms[][10], Commande * command, int len_commands) {
+    SymbolList * s = empty_list();
+    for ( int i = 0; i < len_commands; i++ ) {
+        add_entry(&s, noms[i], command[i]);
+    }
+    return s;
 }

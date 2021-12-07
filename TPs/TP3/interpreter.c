@@ -7,6 +7,7 @@
 #define ASCII_SOMME 43
 #define ASCII_MULT 42
 #include "interpreter.h"
+#include "command_list.h"
 
 // todo union type
 // maybe create a struct to keep track of the type and the union macro_rules!();
@@ -14,6 +15,21 @@ union Test {
     int ValEntier;
     float ValReel;
 };
+
+
+enum bool compare_string(char * s1, char * s2) {
+    int len1 = 0;
+    int len2 = 0;
+    while ( s1[len1] != '\0' ) len1++;
+    while ( s2[len2] != '\0' ) len2++;
+
+    if ( len1 != len2) return false;
+    for ( int i = 0; i < len1; i++ ) {
+        if ( s1[i] != s2[i] ) return false;
+    }
+    return true;
+}
+
 
 int numberOfDelimiters(char* string) {
     int count = 0;
@@ -51,53 +67,47 @@ void print_tokens(Programme * p) {
 
 int executer(Etat *etat) {
     Programme p = etat->p;
-    Stack s = etat->s;
+    Stack *s = &etat->s;
     int a,b;
     for (int i = 1; i<=p.taille; i++) {
-//        printf("init loop: ");
-//        print_stack(&s);
+        char * token = p.tokens[i-1];
 
-        switch ((int)p.tokens[i-1][0]) {
-            case ASCII_SOMME:
-//                print_stack(&s);
-                b = pop(&s);
-                a = pop(&s);
-                push(&s, a + b);
-//                printf("%d + %d = %d\n", a , b, a+b );
-                continue;
-            case ASCII_MULT:
-//                print_stack(&s);
-                b = pop(&s);
-                a = pop(&s);
-                push(&s, a * b);
-//                printf("%d * %d = %d\n", a , b, a*b );
-                continue;
-            case ASCII_MOINS:
-//                print_stack(&s);
-                b = pop(&s);
-                a = pop(&s);
-                push(&s, a - b);
-//                printf("%d - %d = %d\n", a , b, a-b );
-                continue;
-            default: // we have a value
-                push(&s, atoi(p.tokens[i-1]));
+        if ( compare_string("+", token) ) { // sum
+            sum(etat);
+        } else if (compare_string("-", token)) { // substraction
+            subtract(etat);
+        } else if (compare_string("*", token) ) { // multiplication
+            multiply(etat);
+        } else {
+            push(s, atoi(p.tokens[i-1])); // we have a value
         }
+
+//        switch ((int)p.tokens[i-1][0]) {
+//            case ASCII_SOMME:
+////                print_stack(&s);
+//                b = pop(&s);
+//                a = pop(&s);
+//                push(&s, a + b);
+////                printf("%d + %d = %d\n", a , b, a+b );
+//                continue;
+//            case ASCII_MULT:
+////                print_stack(&s);
+//                b = pop(&s);
+//                a = pop(&s);
+//                push(&s, a * b);
+////                printf("%d * %d = %d\n", a , b, a*b );
+//                continue;
+//            case ASCII_MOINS:
+////                print_stack(&s);
+//                b = pop(&s);
+//                a = pop(&s);
+//                push(&s, a - b);
+////                printf("%d - %d = %d\n", a , b, a-b );
+//                continue;
+//            default: // we have a value
+//                push(&s, atoi(p.tokens[i-1]));
+//        }
     }
-    int res = pop(&s);
-//    printf("SORTIE : %d\n", res);
+    int res = pop(s);
     return res;
 }
-
-//void test_forth() {
-//    Programme * p = lexer("3 5 + 4 2 - *");
-//    print_tokens(p);
-//    Etat e = {s: *create_empty_stack(), p: *p};
-//    int res = executer(&e);
-//    printf(ANSI_COLOR_GREEN "(+ , -) * : %d\n" Color_end, res);
-//}
-
-
-//int main() {
-//    test_forth();
-//    return 0;
-//}

@@ -23,7 +23,7 @@ void push(Stack * mut s, int val) {
 }
 
 /// takes a mut ref of a Stack and removes and returns the top element
-int pop(Stack * mut s) {
+int pop(Stack * owned s) {
     Element *first = s->first;
     int val;
     if ( s->first == NULL ) fprintf(stderr, "Cannot pop from empty list: %d\n", -1);
