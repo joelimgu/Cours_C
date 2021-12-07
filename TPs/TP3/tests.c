@@ -32,7 +32,10 @@ enum bool assert_pointer(char * mes, void *value, void *expected) {
 
 int test_program(char * s) {
     Programme * p = lexer(s);
-    Etat e = {s: *create_empty_stack(), p: *p};
+    char noms[][10] = {"DROP", "DUP", "SWAP", "ROT", "+", "-", "*"};
+    Commande commands[] = {drop, dup, swap, rot, sum, subtract, multiply};
+    SymbolList *l2 = init_symbol_list(noms, commands, 7);
+    Etat e = {s: *create_empty_stack(), p: *p,l2};
     return executer(&e);
 }
 
@@ -62,9 +65,11 @@ void test_symbol_list() {
 
     char noms[][10] = {"DROP", "DUP", "SWAP", "ROT"};
     Commande commands[] = {drop, dup, swap, rot };
-    SymbolList *l2 = init_symbol_list(noms, commands, 2);
-    assert_int("Init symbol list", search_token(l2, "DUP"), 1);
+    SymbolList *l2 = init_symbol_list(noms, commands, 4);
+    assert_int("Init symbol list", search_token(l2, "ROT"), 3);
 
+    assert_pointer("Search function using token", search_token_function_pointer(l2, "DUP"), dup);
+    assert_pointer("Search function using token", search_token_function_pointer(l2, "ROT"), rot);
 }
 
 int main() {

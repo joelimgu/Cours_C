@@ -16,7 +16,6 @@ Checklist:
 /// returns the index of the token
 int search_token(SymbolList *l, char *token) {
     SymbolList *aux = l;
-    int len = 0;
     int index = 0;
     if ( aux == NULL ) return -1;
     while ( aux->next != NULL ) {
@@ -28,6 +27,19 @@ int search_token(SymbolList *l, char *token) {
     return -1;
 }
 
+/// returns the pointer to the corresponding function or NULL if not found
+Commande search_token_function_pointer(SymbolList *l, char *token) {
+    SymbolList *aux = l;
+    int index = 0;
+    if ( aux == NULL ) return NULL;
+    while ( aux->next != NULL ) {
+        if ( compare_string(aux->val.token, token) ) return aux->val.func;
+        aux = aux->next;
+        index++;
+    }
+    if ( compare_string(aux->val.token, token) ) return aux->val.func;
+    return NULL;
+}
 
 SymbolList * empty_list() {
     return NULL;

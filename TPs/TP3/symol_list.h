@@ -19,6 +19,8 @@ typedef struct Cells {
 
 int search_token(SymbolList *l, char *token);
 
+Commande search_token_function_pointer(SymbolList *l, char *token);
+
 SymbolList * empty_list();
 
 enum bool add_entry(SymbolList ** mut l, char * t, Commande f);

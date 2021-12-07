@@ -8,6 +8,7 @@
 #define ASCII_MULT 42
 #include "interpreter.h"
 #include "command_list.h"
+#include "symol_list.h"
 
 // todo union type
 // maybe create a struct to keep track of the type and the union macro_rules!();
@@ -71,13 +72,10 @@ int executer(Etat *etat) {
     int a,b;
     for (int i = 1; i<=p.taille; i++) {
         char * token = p.tokens[i-1];
+        Commande commande = search_token_function_pointer(etat->symbols, token);
 
-        if ( compare_string("+", token) ) { // sum
-            sum(etat);
-        } else if (compare_string("-", token)) { // substraction
-            subtract(etat);
-        } else if (compare_string("*", token) ) { // multiplication
-            multiply(etat);
+        if ( commande != NULL ) {
+            commande(etat);
         } else {
             push(s, atoi(p.tokens[i-1])); // we have a value
         }
