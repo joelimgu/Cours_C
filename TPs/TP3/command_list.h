@@ -18,4 +18,9 @@ int subtract(Etat * mut e);
 
 int multiply(Etat * mut e);
 
+int pop_and_print(Etat * e);
+
+int print_stack_from_etat(Etat *e);
+
+
 #endif

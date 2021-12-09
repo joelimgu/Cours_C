@@ -19,7 +19,6 @@ typedef struct  {
     enum Types type;
 } Value; // val: ForthValues, type: Types
 
-// todo change type to Value
 struct List {
     Value val;
     struct List *next;

@@ -10,7 +10,7 @@
 #include "command_list.h"
 #include "symbol_list.h"
 
-
+// returns true if two strings are equal ( deeps equals all characters must be in the same position )
 enum bool compare_string(char * s1, char * s2) {
     int len1 = 0;
     int len2 = 0;
@@ -65,24 +65,23 @@ Value executer(Etat * mut etat) {
     Value v;
     v.val.Int = -1;
     v.type = Int;
-
-    enum bool are_we_in_string = false;
+    etat->mode = Execution;
+//    enum bool are_we_in_string = false;
     for (int i = 1; i<=p.taille; i++) {
         char * token = p.tokens[i-1];
         Commande commande = search_token_function_pointer(etat->symbols, token);
-        if ( compare_string(token, ".\"") == 1 ) {
-
-            are_we_in_string = true;
-
-        } else if ( compare_string(token, "\"" )) {
-            are_we_in_string = false;
+        if ( compare_string(token, ".\"") ) {
+            etat->mode = Printing;
+        } else if ( compare_string(token, "\"" ) ) {
+            etat->mode = Execution;
             printf("\n");
-        } else if ( are_we_in_string ) {
+
+        } else if ( etat->mode == Printing ) {
             printf("%s ", token);
 
         } else if ( commande != NULL ) {
+
             commande(mut etat);
-//            printf("called: %s with &: %p\n", token, commande);
         } else {
             int type = 0; // 0<=> Int, 1<=> Float
             int j = 0;

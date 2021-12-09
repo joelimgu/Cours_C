@@ -28,9 +28,12 @@ typedef int (*Commande)(Etat*);
 
 #include "symbol_list.h" // bc it needs Commande to be defined
 
+enum Mode {Execution, Printing};
+
 typedef struct Etats {
     Stack s;
     Programme p;
+    enum Mode mode;
     void * symbols; // pointer to SymbolList it errors if we define the type
 } Etat;
 

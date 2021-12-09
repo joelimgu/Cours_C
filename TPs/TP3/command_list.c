@@ -68,11 +68,6 @@ void sum(Etat * mut e) {
 }
 
 int subtract(Etat * mut e) {
-//    Stack *s = &e->s;
-//    Value a,b;
-//    b = pop(s);
-//    a = pop(s);
-//    push(s, a - b);
     Stack *s = &e->s;
     Value a,b,c;
     b = pop(s);
@@ -97,15 +92,9 @@ int subtract(Etat * mut e) {
         c.val.Float = a.val.Int - b.val.Float;
         push(s, c);
     }
-
 }
 
 int multiply(Etat * mut e) {
-//    Stack *s = &e->s;
-//    Value a,b;
-//    b = pop(s);
-//    a = pop(s);
-//    push(s, a * b);
     Stack *s = &e->s;
     Value a,b,c;
     b = pop(s);
@@ -130,4 +119,36 @@ int multiply(Etat * mut e) {
         c.val.Float = a.val.Int * b.val.Float;
         push(s, c);
     }
+}
+
+void print_value(Value *v) {
+    if ( v->type == Int ) {
+        printf("%d", v->val.Int);
+    } else if ( v->type == Float ) {
+        printf("%f", v->val.Float);
+    } else {
+        printf("%s", v->val.str);
+    }
+    printf("\n");
+}
+
+
+int pop_and_print(Etat *e) {
+    Stack *s = &e->s;
+    Element *first = s->first;
+    if ( s->first == NULL ) fprintf(stderr, "Cannot pop from empty list: %d\n", -1);
+    s->first = s->first->next;
+    print_value(&first->val);
+    // if it contains a string we also free it's memory
+    if ( first->val.type == str ) {
+        free(first->val.val.str);
+    }
+    free(first);
+    s->len -= 1;
+    return 0;
+}
+
+int print_stack_from_etat(Etat *e) {
+    print_stack(&e->s);
+    return 0;
 }
